@@ -12,4 +12,7 @@ go build -o github-activity(bash terminal)
 
 **run the app**  
 ./github-activity [username]  
-Example: ./github-activity saikumar-3093
+Example: ./github-activity saikumar-3093  
+
+**solution-submit-url**  
+https://roadmap.sh/projects/github-user-activity/solutions?u=671b4154791f57dd602799a1
