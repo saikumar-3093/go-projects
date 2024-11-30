@@ -36,11 +36,11 @@ func Event(user string) error {
 	}
 
 	if resp.StatusCode == 404 {
-		return fmt.Errorf("user not found. please check the username")
+		return fmt.Errorf("\033[31m\033[1muser not found. please check the username\033[0m")
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("error fetching data: %d", resp.StatusCode)
+		return fmt.Errorf("\033[31m\033[1merror fetching data: %d\033[0m", resp.StatusCode)
 	}
 
 	var eventData []event
@@ -58,7 +58,7 @@ func Event(user string) error {
 func DisplayUserActivity(user string, events []event) {
 
 	if len(events) == 0 {
-		fmt.Println("No events for the user:", user)
+		fmt.Println("\033[33mNo events for the user:\033[0m", user)
 	}
 
 	commitCount := 0
