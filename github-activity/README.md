@@ -5,7 +5,7 @@ Sample solution for the [github-user-activity](https://roadmap.sh/projects/githu
 ## How to run
 
 git clone https://github.com/saikumar-3093/go-projects  
-cd github-activity
+cd go-projects/github-activity
 
 **build the cli app**   
 go build -o github-activity(bash terminal)
