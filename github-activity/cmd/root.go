@@ -2,7 +2,8 @@ package cmd
 
 import (
 	"errors"
-	githubuserdata "github-user-activity/github"
+
+	"github-activity/github"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -23,7 +24,7 @@ Complete code available at "https://github.com/saikumar-3093/github-user-activit
 
 		}
 		user := args[0]
-		return githubuserdata.Event(user)
+		return github.Event(user)
 
 	},
 }
@@ -34,17 +35,3 @@ func Execute() {
 	}
 
 }
-
-// var userCmd = &cobra.Command{
-// 	Use:   "user",
-// 	Short: "to fet user last activity",
-// 	RunE: func(cmd *cobra.Command, args []string) error {
-// 		if len(args) != 1 {
-// 			return errors.New("\033[31mplease provide username\033[0m")
-
-// 		}
-// 		user := args[0]
-// 		githubuserdata.Event(user)
-// 		return nil
-// 	},
-// }

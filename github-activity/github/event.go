@@ -1,4 +1,4 @@
-package githubuserdata
+package github
 
 import (
 	"encoding/json"

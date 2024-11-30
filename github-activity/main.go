@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github-user-activity/cmd"
+	"github-activity/cmd"
 )
 
 func main() {
