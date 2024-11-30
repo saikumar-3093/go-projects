@@ -1,11 +1,10 @@
 package main
 
 import (
-	githubuserdata "github-user-activity/github"
+	"github-user-activity/cmd"
 )
 
 func main() {
-	// cmd.Execute()
-	// githubuserdata.Client()
-	githubuserdata.Event()
+	cmd.Execute()
+
 }

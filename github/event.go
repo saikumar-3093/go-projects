@@ -1,13 +1,11 @@
 package githubuserdata
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
 
-	"github.com/google/go-github/v47/github"
-	"golang.org/x/oauth2"
+	"github.com/charmbracelet/lipgloss"
 )
 
 type event struct {
@@ -21,71 +19,83 @@ type event struct {
 		Name string
 	}
 	Payload struct {
-		Commits []struct {
+		Ref      string
+		Ref_type string
+		Commits  []struct {
 			Message string
 		}
 	}
 }
 
-func Client() error {
-	token := "" //accesstoken
-	repoToken := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: token})
-	httpClient := oauth2.NewClient(context.Background(), repoToken)
-	client := github.NewClient(httpClient)
+func Event(user string) error {
 
-	repos, _, _ := client.Repositories.List(context.Background(), "", nil)
-
-	fmt.Println(len(repos))
-
-	var rep github.Repository
-	for _, v := range repos {
-		if *v.Name == "go-project" {
-			fmt.Println(*v.Name)
-			rep = *v
-		}
-	}
-
-	resp, err := httpClient.Get(*rep.EventsURL)
-
-	if err != nil {
-		fmt.Println(err)
-		return err
-	}
-
-	fmt.Println(resp.StatusCode)
-	// fmt.Println(resp)
-	var eventsData []event
-	if resp.StatusCode == http.StatusOK {
-		fmt.Println("Printing Response")
-
-		json.NewDecoder(resp.Body).Decode(&eventsData)
-		// data, _ := io.ReadAll(resp.Body)
-
-		for _, d := range eventsData {
-			fmt.Println(d)
-		}
-
-	}
-	return nil
-
-}
-
-func Event() error {
-	fmt.Println("We will be fetching user activity here")
-
-	resp, err := http.Get("https://api.github.com/users/saikumar-3093/events")
+	resp, err := http.Get(fmt.Sprintf("https://api.github.com/users/%s/events", user))
 
 	if err != nil {
 		return err
+	}
+
+	if resp.StatusCode == 404 {
+		return fmt.Errorf("user not found. please check the username")
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("error fetching data: %d", resp.StatusCode)
 	}
 
 	var eventData []event
 
-	json.NewDecoder(resp.Body).Decode(&eventData)
+	err = json.NewDecoder(resp.Body).Decode(&eventData)
 
-	for _, data := range eventData {
-
-		fmt.Println(data)
+	if err != nil {
+		return err
 	}
+
+	DisplayUserActivity(user, eventData)
 	return nil
+}
+
+func DisplayUserActivity(user string, events []event) {
+
+	if len(events) == 0 {
+		fmt.Println("No events for the user:", user)
+	}
+
+	commitCount := 0
+
+	fmt.Printf("user \033[33m%s\033[0m recent activities\n", user)
+	fmt.Println("Output:")
+	var action string
+	for _, event := range events {
+
+		switch event.Type {
+
+		case "PushEvent":
+			commitCount = len(event.Payload.Commits)
+			action = fmt.Sprintf("Pushed \033[33m\033[1m%v commit(s)\033[0m to \033[33m%s\033[0m Repository", commitCount, event.Repo.Name)
+
+		case "ForkEvent":
+			action = fmt.Sprintf("Forked \033[33m%s\033[0m Repository", event.Repo.Name)
+
+		case "CreateEvent":
+			if event.Payload.Ref_type == "branch" {
+				action = fmt.Sprintf("Created \033[33m'%s'\033[0m Branch in \033[33m%s\033[0m Repository", event.Payload.Ref, event.Repo.Name)
+			}
+		case "WatchEvent":
+			action = fmt.Sprintf("Added \033[33m%s\033[0m repository to favourites", event.Repo.Name)
+
+		case "IssuesEvent":
+			action = fmt.Sprintf("Created an Issue in \033[33m%s\033[0m repo", event.Repo.Name)
+		default:
+			action = fmt.Sprintf("\033[33m%s\033[0m in \033[33m%s\033[0m", event.Type, event.Repo.Name)
+		}
+		fmtOutput := lipgloss.NewStyle().
+			Border(lipgloss.NormalBorder(), false, false, true, false).
+			BorderForeground(lipgloss.Color("#3C3C3C")).
+			Render(fmt.Sprintf("- %s", action))
+
+		fmt.Println(fmtOutput)
+
+	}
+
 }
