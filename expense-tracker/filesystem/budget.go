@@ -43,7 +43,7 @@ func ReadBudgetFile() ([]models.Budget, error) {
 				fmt.Println("Error creating Budget file")
 				return []models.Budget{}, err
 			}
-			fmt.Println("created Budget file!")
+
 			fileinfo, err = os.Stat(fileName)
 			if err != nil {
 				fmt.Println("Error getting Budget fileinfo after creating")
@@ -57,7 +57,6 @@ func ReadBudgetFile() ([]models.Budget, error) {
 	}
 
 	if fileinfo.Size() == 0 {
-		fmt.Println("File is empty")
 		return []models.Budget{}, nil
 	}
 	_, err = os.Open(fileName)
@@ -116,6 +115,7 @@ func AddBudget(month string, amount int64) error {
 
 	for _, budget := range allBudgets {
 		if budget.Month == month {
+			fmt.Println("Budget already created for month:", month)
 			return nil
 		}
 	}

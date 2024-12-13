@@ -23,15 +23,15 @@ func GetFilePath() (string, error) {
 	return dir, nil
 }
 
-func checkBudget() (int64, error) {
-	MonthBudget, err := MonthBudget(time.November.String())
+// func checkBudget() (int64, error) {
+// 	MonthBudget, err := MonthBudget(time.November.String())
 
-	if err != nil {
-		return 0, err
+// 	if err != nil {
+// 		return 0, err
 
-	}
-	return MonthBudget, nil
-}
+//		}
+//		return MonthBudget, nil
+//	}
 func ReadExpensesFile() ([]models.Expense, error) {
 	fileName, err := GetFilePath()
 
@@ -48,7 +48,7 @@ func ReadExpensesFile() ([]models.Expense, error) {
 				fmt.Println("Error creating file")
 				return []models.Expense{}, err
 			}
-			fmt.Println("created file!")
+
 			fileinfo, err = os.Stat(fileName)
 			if err != nil {
 				fmt.Println("Error getting fileinfo after creating")
@@ -62,7 +62,6 @@ func ReadExpensesFile() ([]models.Expense, error) {
 	}
 
 	if fileinfo.Size() == 0 {
-		fmt.Println("File is empty")
 		return []models.Expense{}, nil
 	}
 	_, err = os.Open(fileName)
@@ -126,7 +125,7 @@ func AddExpense(desc string, amount int64, category string) {
 	}
 
 	if totalExpense+amount > totalBudget {
-		fmt.Println("\033[31mSpending out of the Budget\033[0m")
+		fmt.Println("\033[31mSpending out of the Budget\033[0m\n------------------------------")
 		fmt.Printf("%s Month Budget: \033[33m%v\033[0m\n", time.Now().Month().String(), totalBudget)
 		fmt.Printf("%s Month Expense Summary till now: \033[33m%v\033[0m\n", time.Now().Month().String(), totalExpense)
 		fmt.Printf("New Expense: \033[33m%v\033[0m\n", amount)
@@ -297,7 +296,7 @@ func MonthSummary(month string) (int64, error) {
 		}
 
 	}
-	fmt.Printf("%s month summary: %v\n", month, monthSummaryCount)
+
 	return monthSummaryCount, nil
 }
 

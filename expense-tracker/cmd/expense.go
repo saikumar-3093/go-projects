@@ -153,11 +153,15 @@ func expensesSummary() *cobra.Command {
 				}
 				month := time.Month(month).String()
 
-				filesystem.MonthSummary(month)
+				monthexp, err := filesystem.MonthSummary(month)
+				if err != nil {
+					return err
+				}
+				fmt.Printf("%s month summary: %v\n", month, monthexp)
 			}
 
 			if count > 1 {
-				return fmt.Errorf("Please provide only one category")
+				return fmt.Errorf("please provide only one category")
 			}
 			return nil
 		},

@@ -55,7 +55,7 @@ func monthBudget() *cobra.Command {
 		Short: "to get budget for the month",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if mon < 1 || mon > 12 {
-				return fmt.Errorf("Invalid month")
+				return fmt.Errorf("invalid month")
 			}
 
 			mon := time.Month(mon).String()
