@@ -18,4 +18,5 @@ Example: ./github-activity saikumar-3093
 https://roadmap.sh/projects/github-user-activity/solutions?u=671b4154791f57dd602799a1
 
 ## Expense Tracker  
+Sample solution for the https://roadmap.sh/projects/expense-tracker challenge from https://roadmap.sh/.
 **for expense tracker project goto "expense-tracker" folder(cd expense-tracker)**
