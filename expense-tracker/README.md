@@ -1,10 +1,10 @@
 
-GitHub Expense Tracker    
+## GitHub Expense Tracker    
 
 
-Sample solution for the expense tracker challenge from roadmap.sh.  
+Sample solution for the https://roadmap.sh/projects/expense-tracker challenge from https://roadmap.sh/.
 
-How to run  
+## How to run  
 
 git clone https://github.com/saikumar-3093/go-projects  
 cd go-projects/expense-tracker  
