@@ -17,5 +17,5 @@ Example: ./github-activity saikumar-3093
 **solution-submit-url**  
 https://roadmap.sh/projects/github-user-activity/solutions?u=671b4154791f57dd602799a1
 
-##Expense Tracker  
+## Expense Tracker  
 **for expense tracker project goto "expense-tracker" folder(cd expense-tracker)**
