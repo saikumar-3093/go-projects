@@ -56,7 +56,7 @@ Example: .\expense-tracker.exe summary --month 12
 .\expense-tracker.exe convert-to-csv [json file to be converted to csv file] [csv file name]  
 Example: .\expense-tracker.exe convert-to-csv "expenses.json" "expenses-csv"
 
-Project-Url:   
-https://github.com/saikumar-3093/go-projects/edit/main/expense-tracker
+** Solution-submit-Url: **    
+https://roadmap.sh/projects/expense-tracker/solutions?u=671b4154791f57dd602799a1
 
 
