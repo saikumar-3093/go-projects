@@ -17,5 +17,11 @@ jobs:
         uses: aquasecurity/trivy-action@0.21.0
         with:
           image-ref: saikumar3093/test-python:v2
-          format: 'table'
+          format: 'json'           # JSON format for saving
+          output: 'trivy-report.json'
           severity: 'CRITICAL,HIGH'
+      - name: Upload Trivy scan report as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: trivy-report
+          path: trivy-report.json
