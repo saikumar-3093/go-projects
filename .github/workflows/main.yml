@@ -16,6 +16,6 @@ jobs:
       - name: Run Trivy scan on Docker Hub image
         uses: aquasecurity/trivy-action@0.21.0
         with:
-          image-ref: saikumar3093/python-test:v1
+          image-ref: saikumar3093/test-python:v2
           format: 'table'
           severity: 'CRITICAL,HIGH'
