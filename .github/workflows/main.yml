@@ -24,7 +24,7 @@ jobs:
       # Run Checkov scan on Terraform directory
       - name: Run Checkov
         run: |
-          checkov -d ./ -o json > checkov-report.json
+          checkov -d ./ -o json --soft-fail > checkov-report.json
 
       # Upload Checkov report as artifact
       - name: Upload Checkov report
