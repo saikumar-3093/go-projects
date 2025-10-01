@@ -1,0 +1,42 @@
+name: Terraform Security Scan
+
+# Run on pull requests to main
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  checkov-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repo
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Install Checkov
+      - name: Install Checkov
+        run: |
+          python -m pip install --upgrade pip
+          pip install checkov
+
+      # Run Checkov scan on Terraform directory
+      - name: Run Checkov
+        run: |
+          checkov -d ./ -o json > checkov-report.json
+
+      # Upload Checkov report as artifact
+      - name: Upload Checkov report
+        uses: actions/upload-artifact@v4
+        with:
+          name: checkov-report
+          path: checkov-report.json
+
+      # Fail workflow if any critical/high violations are found
+      - name: Fail on Checkov violations
+        run: |
+          if checkov -d ./| grep "FAIL"; then
+            echo "Checkov found failing policies!"
+            exit 1
+          fi
